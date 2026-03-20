@@ -77,9 +77,11 @@
             />
           </div>
 
-          <button
+          <a
+            id="download-link"
             class="hero__download"
-            type="button"
+            href="https://app.adjust.com/1yryvhpf"
+            data-adjust-base="https://app.adjust.com/1yryvhpf"
             aria-label="Download Grow on the App Store"
           >
             <img
@@ -88,9 +90,28 @@
               width="210"
               height="70"
             />
-          </button>
+          </a>
         </div>
       </section>
     </main>
+
+    <script>
+      const downloadLink = document.getElementById("download-link");
+
+      if (downloadLink) {
+        const pageUrl = new URL(window.location.href);
+        const targetUrl = new URL(downloadLink.dataset.adjustBase);
+
+        ["campaign", "adgroup", "creative", "fbclid"].forEach((key) => {
+          const value = pageUrl.searchParams.get(key);
+
+          if (value) {
+            targetUrl.searchParams.set(key, value);
+          }
+        });
+
+        downloadLink.href = targetUrl.toString();
+      }
+    </script>
   </body>
 </html>

@@ -1,0 +1,14 @@
+{
+  "name": "grow-web-to-app",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "wrangler --config wrangler.worker.jsonc dev",
+    "preview": "wrangler --config wrangler.worker.jsonc dev --remote",
+    "deploy": "wrangler pages deploy public --project-name grow-web-to-app",
+    "deploy:worker": "wrangler --config wrangler.worker.jsonc deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.76.0"
+  }
+}
