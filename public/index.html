@@ -13,13 +13,15 @@
     <noscript>
       <meta http-equiv="refresh" content="0; url=https://app.adjust.com/1yryvhpf" />
     </noscript>
-    <link rel="icon" href="assets/big-logo.png" />
+    <link rel="icon" href="/assets/big-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap"
       rel="stylesheet"
     />
+    <link rel="preload" href="/assets/big-logo.png" as="image" />
+    <link rel="preload" href="/assets/app-store-badge.svg" as="image" />
     <!-- Meta Pixel Code -->
     <script>
       !(function (f, b, e, v, n, t, s) {
@@ -44,7 +46,7 @@
       fbq("track", "PageView");
     </script>
     <!-- End Meta Pixel Code -->
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
     <title>Grow</title>
   </head>
   <body>
@@ -63,10 +65,12 @@
           <div class="hero__brand">
             <img
               class="hero__logo"
-              src="assets/big-logo.png"
+              src="/assets/big-logo.png"
               alt="Grow app logo"
               width="260"
               height="260"
+              fetchpriority="high"
+              decoding="async"
             />
 
             <header class="hero__headline">
@@ -82,7 +86,7 @@
           <div class="hero__proof" aria-label="Editorial rating">
             <img
               class="hero__laurel"
-              src="assets/laurel-left.svg"
+              src="/assets/laurel-left.svg"
               alt=""
               aria-hidden="true"
               width="45"
@@ -105,7 +109,7 @@
 
             <img
               class="hero__laurel hero__laurel--right"
-              src="assets/laurel-right.svg"
+              src="/assets/laurel-right.svg"
               alt=""
               aria-hidden="true"
               width="45"
@@ -122,10 +126,11 @@
             aria-label="Download Grow on the App Store"
           >
             <img
-              src="assets/app-store-badge.svg"
+              src="/assets/app-store-badge.svg"
               alt="Download on the App Store"
               width="210"
               height="70"
+              decoding="async"
             />
           </a>
         </div>
