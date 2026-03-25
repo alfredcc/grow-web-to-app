@@ -115,6 +115,7 @@
             class="hero__download"
             href="https://app.adjust.com/1yryvhpf"
             data-adjust-base="https://app.adjust.com/1yryvhpf"
+            data-adjust-impression-base="https://view.adjust.com/impression/1yryvhpf"
             aria-label="Download Grow on the App Store"
           >
             <img
@@ -134,16 +135,45 @@
       if (downloadLink) {
         const pageUrl = new URL(window.location.href);
         const targetUrl = new URL(downloadLink.dataset.adjustBase);
+        const impressionUrl = new URL(downloadLink.dataset.adjustImpressionBase);
 
         ["campaign", "adgroup", "creative", "fbclid"].forEach((key) => {
           const value = pageUrl.searchParams.get(key);
 
           if (value) {
             targetUrl.searchParams.set(key, value);
+            impressionUrl.searchParams.set(key, value);
           }
         });
 
         downloadLink.href = targetUrl.toString();
+
+        const reportImpression = () => {
+          if (downloadLink.dataset.adjustImpressionTracked === "true") {
+            return;
+          }
+
+          downloadLink.dataset.adjustImpressionTracked = "true";
+          new Image().src = impressionUrl.toString();
+        };
+
+        if ("IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  reportImpression();
+                  observer.disconnect();
+                }
+              });
+            },
+            { threshold: 0.5 }
+          );
+
+          observer.observe(downloadLink);
+        } else {
+          reportImpression();
+        }
       }
     </script>
   </body>
