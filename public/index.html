@@ -10,6 +10,9 @@
       name="description"
       content="Grow is your best friend for Apple Watch."
     />
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=https://app.adjust.com/1yryvhpf" />
+    </noscript>
     <link rel="icon" href="assets/big-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -136,6 +139,7 @@
         const pageUrl = new URL(window.location.href);
         const targetUrl = new URL(downloadLink.dataset.adjustBase);
         const impressionUrl = new URL(downloadLink.dataset.adjustImpressionBase);
+        const shouldPreview = pageUrl.searchParams.get("preview") === "1";
 
         ["campaign", "adgroup", "creative", "fbclid"].forEach((key) => {
           const value = pageUrl.searchParams.get(key);
@@ -154,25 +158,39 @@
           }
 
           downloadLink.dataset.adjustImpressionTracked = "true";
+
+          if ("fetch" in window) {
+            fetch(impressionUrl.toString(), {
+              mode: "no-cors",
+              keepalive: true,
+            }).catch(() => {});
+            return;
+          }
+
           new Image().src = impressionUrl.toString();
         };
 
-        if ("IntersectionObserver" in window) {
-          const observer = new IntersectionObserver(
-            (entries) => {
-              entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                  reportImpression();
-                  observer.disconnect();
-                }
-              });
-            },
-            { threshold: 0.5 }
-          );
+        if (shouldPreview) {
+          if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver(
+              (entries) => {
+                entries.forEach((entry) => {
+                  if (entry.isIntersecting) {
+                    reportImpression();
+                    observer.disconnect();
+                  }
+                });
+              },
+              { threshold: 0.5 }
+            );
 
-          observer.observe(downloadLink);
+            observer.observe(downloadLink);
+          } else {
+            reportImpression();
+          }
         } else {
           reportImpression();
+          window.location.replace(targetUrl.toString());
         }
       }
     </script>
