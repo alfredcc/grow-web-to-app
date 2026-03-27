@@ -195,7 +195,9 @@
           }
         } else {
           reportImpression();
-          window.location.replace(targetUrl.toString());
+          window.setTimeout(() => {
+            window.location.replace(targetUrl.toString());
+          }, 1000);
         }
       }
     </script>
